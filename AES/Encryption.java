@@ -15,7 +15,7 @@ public class Encryption
 	
 	Aes AES = new Aes();
 	
-	
+	String counter="D030B0A090B070F0";
 	
 	
 	public Encryption() throws IOException 
@@ -78,11 +78,26 @@ public class Encryption
 		
 		char[] encryptedMessage = new char[paddedMessageLen];
 		
+		char[] iv=new char[16];
+		
+		for(int i=0,j=0;i<counter.length() && j<16 ;i+=2,j++) 
+		{
+			
+			String str = counter.substring(i, i+2);
+			iv[j]=(char)Integer.parseInt(str, 16);
+			
+		}
+		
+		
+		
 		for (int i = 0; i < paddedMessageLen; i += 16) 
 		{
 			
 			char[] tempPaddedMessage = new char[16];
 			char[] tempEncryptedMessage = new char[16];
+			
+			
+			
 			
 			for(int j=0,l=i;j<16;j++,l++) 
 			{
@@ -90,13 +105,25 @@ public class Encryption
 				tempPaddedMessage[j] = paddedMessage[l];
 			}
 			
+			for (int k = 0; k< 16; k++) 
+			{
+				tempPaddedMessage[k] ^= iv[k];
+			}
+			
+			
+			
 			AES.AESEncrypt(tempPaddedMessage, expandedKey, tempEncryptedMessage);
+			
 			
 			for(int j=0,l=i;j<16;j++,l++) 
 			{
-				
 				encryptedMessage[l] = tempEncryptedMessage[j];
+				iv[j] = tempEncryptedMessage[j];
 			}
+			
+			
+			
+			
 				
 		}
 		
@@ -105,7 +132,7 @@ public class Encryption
 		String fileName = "encryptedMessage.txt";
 	    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 	    
-	    System.out.println("AES 128 bit Encryption Done");
+	    
 		
 		for(int i=0;i<paddedMessageLen;i++) 
 		{
@@ -117,6 +144,7 @@ public class Encryption
 		//System.out.println("Hexadecimal encrypted string:\n"+hex);
 		
 	    writer.close();
+	    System.out.println("AES 128 bit Encryption Done");
 	    
 	}
 }

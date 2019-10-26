@@ -11,6 +11,7 @@ import java.nio.file.Files;
 
 public class Decryption 
 {
+	String counter="D030B0A090B070F0";
 	
 	KeyExpansion KE = new KeyExpansion();
 	
@@ -259,6 +260,19 @@ public class Decryption
 		
 		KE.Expansion(key,expandedKey);
 		
+		
+		
+		
+		char[] iv=new char[16];
+		
+		for(int i=0,j=0;i<counter.length() && j<16 ;i+=2,j++) 
+		{
+			
+			String str = counter.substring(i, i+2);
+			iv[j]=(char)Integer.parseInt(str, 16);
+			
+		}
+		
 		//for(int i=0;i<176;i++) System.out.println(i+" "+expandedKey[i]);
 		
 		char[] decryptedMessage = new char[encryptedMessageLen];
@@ -269,18 +283,34 @@ public class Decryption
 			char[] tempEncryptedMessage = new char[16];
 			char[] tempDecryptedMessage = new char[16];
 			
+			
 			for(int j=0,l=i;j<16;j++,l++) 
 			{
 				
 				tempEncryptedMessage[j] = encryptedMessage[l];
+				
 			}
 			
 			AESDecrypt(tempEncryptedMessage, expandedKey, tempDecryptedMessage);
+			
+			for (int k = 0; k< 16; k++) 
+			{
+				tempDecryptedMessage[k] ^= iv[k];
+			}
+			
+			
 			
 			for(int j=0,l=i;j<16;j++,l++) 
 			{
 				
 				decryptedMessage[l] = tempDecryptedMessage[j];
+			}
+			
+			for(int j=0,l=i;j<16;j++,l++) 
+			{
+				
+				iv[j] = encryptedMessage[l];
+				
 			}
 			
 		}
@@ -290,10 +320,10 @@ public class Decryption
 		
 		String fileName = "decryptedMessage.txt";
 	    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-	    writer.close();
+	  
 		
 	    System.out.println("AES 128 bit Decryption Done");
-		/*for(int i=0;i<encryptedMessageLen;i++) 
+		for(int i=0;i<encryptedMessageLen;i++) 
 		{
 			
 			hex += String.format("%02x", (int) decryptedMessage[i]);
@@ -307,8 +337,8 @@ public class Decryption
 	    
 	    //System.out.println("Decrypted message: "+str);
 		
+		  writer.close();
 		
-		*/
 		
 	}
 }
