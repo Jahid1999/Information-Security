@@ -12,6 +12,15 @@ public class DES {
         String keys[] = KEYS.getKeys(key); 
 
         plainText = KEYS.permutation(tab.IP, plainText); 
+        
+        System.out.println( 
+                "After initial permutation: "
+                + plainText.toUpperCase()); 
+            System.out.println( 
+                "After splitting: L0="
+                + plainText.substring(0, 8).toUpperCase() 
+                + " R0="
+                + plainText.substring(8, 16).toUpperCase() + "\n");
 
         for (i = 0; i < 16; i++) { 
             plainText = rund.round(plainText, keys[i], i); 
@@ -33,6 +42,15 @@ public class DES {
         String keys[] = KEYS.getKeys(key);
         
         plainText = KEYS.permutation(tab.IP, plainText); 
+        
+        System.out.println( 
+                "After initial permutation: "
+                + plainText.toUpperCase()); 
+            System.out.println( 
+                "After splitting: L0="
+                + plainText.substring(0, 8).toUpperCase() 
+                + " R0=" + plainText.substring(8, 16).toUpperCase() 
+                + "\n");
 
         for (i = 15; i > -1; i--) { 
             plainText = rund.round(plainText, keys[i], 15 - i); 

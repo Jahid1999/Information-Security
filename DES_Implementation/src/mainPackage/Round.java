@@ -16,6 +16,12 @@ public class Round {
         
         temp = KEYS.permutation(KEYS.tab.P, temp); 
         left = xor(left, temp); 
+        
+        System.out.println("Round "
+                + (num + 1) + " "
+                + right.toUpperCase() 
+                + " " + left.toUpperCase() + " "
+                + key.toUpperCase());
 
         return right + left; 
     } 
