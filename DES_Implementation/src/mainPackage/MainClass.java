@@ -8,16 +8,16 @@ public class MainClass {
 		 String text = "123456ABCD132536"; 
 	        String key = "AABB09182736CCDD"; 
 	  
-	        DES cipher = new DES(); 
-	        System.out.println("Encryption:\n"); 
-	        text = cipher.encrypt(text, key); 
+	        DES des = new DES(); 
+	        System.out.println("Encrypting..."); 
+	        text = des.encrypt(text, key); 
 	        System.out.println( 
-	            "\nCipher Text: " + text.toUpperCase() + "\n"); 
-//	        System.out.println("Decryption\n"); 
-//	        text = cipher.decrypt(text, key); 
-//	        System.out.println( 
-//	            "\nPlain Text: "
-//	            + text.toUpperCase()); 
+	            "Cipher Text: " + text.toUpperCase() + "\n"); 
+	        System.out.println("Decrypting..."); 
+	        text = des.decrypt(text, key); 
+	        System.out.println( 
+	            "Plain Text: "
+	            + text.toUpperCase()); 
 
 	}
 
