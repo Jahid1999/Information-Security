@@ -1,11 +1,15 @@
 package mainPackage;
 
+import java.util.Scanner;
+
 public class MainClass {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		 String text = "123456ABCD132536"; 
+		 String text;
+		 
+		Scanner sin = new Scanner(System.in);
+		 text = sin.nextLine();
 	        String key = "AABB09182736CCDD"; 
 	  
 	        DES des = new DES(); 
